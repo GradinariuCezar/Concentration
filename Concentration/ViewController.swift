@@ -54,13 +54,19 @@ class ViewController: UIViewController {
             }
         }
     var emoji = [Int:String]()
-    var emojiChoices = ["🎃", "👻", "🦇", "😱", "🍭","🍎","🙀"]
+    var emojiChoices = [["🎃", "👻", "🦇", "😱", "🍭","🍎","🙀"],
+    ["😀","😂","🙃","😍","😎","🥳"],
+    ["🏀","⚽️","🏈","⚾️","🥎","🏐"],
+    ["🐈","🐶","🐹","🦊","🐷","🐒"],
+    ["👶","👧","👩‍🦳","👮‍♀️","🧑‍🌾","👩‍🍳"],
+    ["☀️","🌘","⛈","💦","🌊","☃️"]]
+    lazy var themeCount = arc4random_uniform(UInt32(emojiChoices.count))
     func emoji_f(for card:Card) -> String{
         //print("dictionar:" + emoji[card.identifier]!)
         print(emoji.count)
         if emoji[card.identifier] == nil,emojiChoices.count > 0 {
             let randomIndex=Int(arc4random_uniform(UInt32(emojiChoices.count)))
-            emoji[card.identifier]=emojiChoices.remove(at: randomIndex)
+            emoji[card.identifier]=emojiChoices[Int(themeCount)].remove(at: randomIndex)
 
         }
         return emoji[card.identifier] ?? "?"
@@ -81,11 +87,14 @@ class ViewController: UIViewController {
 
     @IBAction func pressNewGame(_ sender: Any) {
         flipCount=0
+        themeCount = arc4random_uniform(UInt32(emojiChoices.count))
+        print(themeCount)
         for index in cardButtons.indices{
             cardButtons[index].setTitle("", for: UIControl.State.normal)
             cardButtons[index].backgroundColor = UIColor.orange
             game.cards[index].isMatched = false
             game.cards[index].isFaceUp = false
+            emoji.removeAll()
         }
 
     }
