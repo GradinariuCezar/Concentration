@@ -12,9 +12,9 @@ class Concentration
 {
 
     var cards = [Card]()
-    var flipCount: Int=0
+    var flipCount: Int = 0
     var indexOfOneAndOnlyFaceUpCard : Int?
-
+    var score : Int = 0
     var themes: [Theme] = [Theme(name: "Halloween",color: UIColor.orange,emojis: ["🎃", "👻", "🦇", "😱", "🍭","🍎","🙀"]),
                            Theme(name: "Faces",color:  UIColor.yellow,emojis:["😀","😂","🙃","😍","😎","🥳"]),
                            Theme(name: "Sports",color: UIColor.red,emojis:["🏀","⚽️","🏈","⚾️","🥎","🏐"]),Theme(name: "Animals",color: UIColor.blue,emojis: ["🐈","🐶","🐹","🦊","🐷","🐒"]),
@@ -60,5 +60,35 @@ class Concentration
             cards[index].isMatched = false
             cards[index].isFaceUp = false
         }
+        selectedCards.removeAll()
+        score = 0
     }
+    var selectedCards = [Int:Int]()
+    func scoreUpdate(at index: Int)-> Int{
+        if selectedCards[cards[index].identifier] == nil{
+            selectedCards[cards[index].identifier]=1
+        }
+        else{
+            selectedCards[cards[index].identifier]! += 1
+
+            //daca avem o carte deja intoarsa
+            if let indexFlippedCard = indexOfOneAndOnlyFaceUpCard{
+                if cards[indexFlippedCard].identifier == cards[index].identifier{
+                    score += 2
+                }
+                else
+                {
+                    if selectedCards[cards[index].identifier]! > 1 {
+                        score -= 1
+                    }
+                    if selectedCards[cards[indexFlippedCard].identifier]! > 1 {
+                        score -= 1
+                    }
+                }
+            }
+        }
+        return score
+    }
+
+
 }
