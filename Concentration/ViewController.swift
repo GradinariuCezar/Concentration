@@ -13,25 +13,27 @@ class ViewController: UIViewController {
     var flipCount: Int = 0{
         didSet{
             flipCountLabel.text="Flips: \(flipCount)"
-
         }
     }
-
+    var score: Int = 0{
+        didSet{
+            scoreLabel.text="Score: \(score)"
+        }
+    }
     override func viewDidLoad() {
         print("App started")
-
     }
 
     @IBOutlet var cardButtons: [UIButton]!
     @IBOutlet weak var flipCountLabel: UILabel!
-
-
+    @IBOutlet weak var scoreLabel: UILabel!
 
     @IBAction func touchCard(_ sender: UIButton){
-        flipCount+=1
         if let cardNumber = cardButtons.index(of: sender){
+            scoreUpdate(at: cardNumber)
             game.chooseCard(at: cardNumber)
             updateViewFromModel()
+            flipCount=game.flipCount
         }
         else{
             print("chosen card was not in cardButtons")
@@ -39,7 +41,7 @@ class ViewController: UIViewController {
     }
     func updateViewFromModel(){
         for index in cardButtons.indices{
-                let button=cardButtons[index]
+            let button=cardButtons[index]
             let card=game.cards[index]
             if card.isFaceUp{
                 button.setTitle(emoji_f(for: card), for: UIControl.State.normal)
@@ -51,22 +53,51 @@ class ViewController: UIViewController {
 
 
             }
+        }
+    }
+    var selectedCards = [Int:Int]()
+    func scoreUpdate(at index: Int){
+        if selectedCards[game.cards[index].identifier] == nil{
+            selectedCards[game.cards[index].identifier]=1
+        }
+        else{
+            selectedCards[game.cards[index].identifier]! += 1
+
+            //daca avem o carte deja intoarsa
+            if let indexFlippedCard = game.indexOfOneAndOnlyFaceUpCard{
+                if game.cards[indexFlippedCard].identifier == game.cards[index].identifier{
+                    score += 2
+                }
+                else
+                {
+                    if selectedCards[game.cards[index].identifier]! > 1 {
+                        score -= 1
+                    }
+                    if selectedCards[game.cards[indexFlippedCard].identifier]! > 1 {
+                        score -= 1
+                    }
+                }
             }
         }
+
+
+    }
+
     var emoji = [Int:String]()
     var emojiChoices = [["🎃", "👻", "🦇", "😱", "🍭","🍎","🙀"],
-    ["😀","😂","🙃","😍","😎","🥳"],
-    ["🏀","⚽️","🏈","⚾️","🥎","🏐"],
-    ["🐈","🐶","🐹","🦊","🐷","🐒"],
-    ["👶","👧","👩‍🦳","👮‍♀️","🧑‍🌾","👩‍🍳"],
-    ["☀️","🌘","⛈","💦","🌊","☃️"]]
-    lazy var themeCount = arc4random_uniform(UInt32(emojiChoices.count))
+                        ["😀","😂","🙃","😍","😎","🥳"],
+                        ["🏀","⚽️","🏈","⚾️","🥎","🏐"],
+                        ["🐈","🐶","🐹","🦊","🐷","🐒"],
+                        ["👶","👧","👩‍🦳","👮‍♀️","🧑‍🌾","👩‍🍳"],
+                        ["☀️","🌘","⛈","💦","🌊","☃️"]]
+    lazy var theme = game.themes[Int(arc4random_uniform(UInt32(game.themes.count)))]
+    lazy var themeNo = Int(arc4random_uniform(UInt32(game.themes.count)))
     func emoji_f(for card:Card) -> String{
         //print("dictionar:" + emoji[card.identifier]!)
         print(emoji.count)
-        if emoji[card.identifier] == nil,emojiChoices.count > 0 {
-            let randomIndex=Int(arc4random_uniform(UInt32(emojiChoices.count)))
-            emoji[card.identifier]=emojiChoices[Int(themeCount)].remove(at: randomIndex)
+        if emoji[card.identifier] == nil,theme.emojis.count > 0 {
+            let randomIndex=Int(arc4random_uniform(UInt32(emojiChoices[themeNo].count)))
+            emoji[card.identifier]=emojiChoices[Int(themeNo)].remove(at: randomIndex)
 
         }
         return emoji[card.identifier] ?? "?"
@@ -86,18 +117,16 @@ class ViewController: UIViewController {
 
 
     @IBAction func pressNewGame(_ sender: Any) {
-        flipCount=0
-        themeCount = arc4random_uniform(UInt32(emojiChoices.count))
-        print(themeCount)
+        theme = game.themes[Int(arc4random_uniform(UInt32(game.themes.count)))]
+        //print(themeNo)
         for index in cardButtons.indices{
             cardButtons[index].setTitle("", for: UIControl.State.normal)
             cardButtons[index].backgroundColor = UIColor.orange
-            game.cards[index].isMatched = false
-            game.cards[index].isFaceUp = false
+            game.resetCards()
             emoji.removeAll()
+            selectedCards.removeAll()
         }
-
+        flipCount=game.flipCount
     }
-
 }
 

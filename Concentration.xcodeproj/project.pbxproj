@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4146BCA827C4D8B600F59AAC /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4146BCA727C4D8B600F59AAC /* Theme.swift */; };
 		41AB5F5527BFBAA200D3CD2F /* ConcentrationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41AB5F5427BFBAA200D3CD2F /* ConcentrationModel.swift */; };
 		41AB5F5727BFC39500D3CD2F /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41AB5F5627BFC39500D3CD2F /* Card.swift */; };
 		41EE5E4D27BEF19F00542B77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41EE5E4C27BEF19F00542B77 /* AppDelegate.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4146BCA727C4D8B600F59AAC /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		41AB5F5427BFBAA200D3CD2F /* ConcentrationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcentrationModel.swift; sourceTree = "<group>"; };
 		41AB5F5627BFC39500D3CD2F /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		41EE5E4927BEF19F00542B77 /* Concentration.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Concentration.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -69,6 +71,7 @@
 				41EE5E5527BEF1A500542B77 /* Assets.xcassets */,
 				41EE5E5727BEF1A500542B77 /* LaunchScreen.storyboard */,
 				41EE5E5A27BEF1A500542B77 /* Info.plist */,
+				4146BCA727C4D8B600F59AAC /* Theme.swift */,
 			);
 			path = Concentration;
 			sourceTree = "<group>";
@@ -147,6 +150,7 @@
 				41EE5E5127BEF19F00542B77 /* ViewController.swift in Sources */,
 				41EE5E4D27BEF19F00542B77 /* AppDelegate.swift in Sources */,
 				41AB5F5727BFC39500D3CD2F /* Card.swift in Sources */,
+				4146BCA827C4D8B600F59AAC /* Theme.swift in Sources */,
 				41EE5E4F27BEF19F00542B77 /* SceneDelegate.swift in Sources */,
 				41AB5F5527BFBAA200D3CD2F /* ConcentrationModel.swift in Sources */,
 			);
