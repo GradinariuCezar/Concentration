@@ -11,17 +11,8 @@ class ViewController: UIViewController {
     private lazy var game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1)/2){
         didSet{
             theme = game.themes[Int(arc4random_uniform(UInt32(game.themes.count)))]
-        }
-    }
-
-    private(set) var flipCount: Int = 0{
-        didSet{
-            flipCountLabel.text="Flips: \(flipCount)"
-        }
-    }
-    private(set) var score: Int = 0{
-        didSet{
-            scoreLabel.text="Score: \(score)"
+            scoreLabel.text = "Score: \(game.score)"
+            flipCountLabel.text = "Flips: \(game.flipCount)"
         }
     }
 
@@ -44,9 +35,10 @@ class ViewController: UIViewController {
     @IBAction func touchCard(_ sender: UIButton){
         if let cardNumber = cardButtons.index(of: sender){
             game.chooseCard(at: cardNumber)
-            score = game.score
+            scoreLabel.text = "Score: \(game.score)"
+            flipCountLabel.text = "Flips: \(game.flipCount)"
             updateViewFromModel()
-            flipCount=game.flipCount
+
         }
         else{
             print("chosen card was not in cardButtons")
@@ -100,8 +92,8 @@ class ViewController: UIViewController {
         emoji.removeAll()
         scoreLabel.textColor = theme.color
         flipCountLabel.textColor = theme.color
-        score = game.score
-        flipCount = game.flipCount
+        //score = game.score // sau 0
+        //flipCount = game.flipCount // sau
         newGameButton.setTitleColor(theme.color, for: UIControl.State.normal)
     }
 }
